@@ -43,5 +43,7 @@ namespace FordonsReg
         {
             return String.Format("{0} - {1}  m/s", Name, Converter.PrintSpeedInMetersPerSecond(this));
         }
+        
+
     }
 }

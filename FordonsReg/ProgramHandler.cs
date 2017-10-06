@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using FordonsReg.Enums;
+
 namespace FordonsReg
 {
 
     public class ProgramHandler
     {
+        
         public List<IVehicle> Carlist;
         public List<IVehicle> Boatslist;
         public List<IVehicle> Mclist;
@@ -24,35 +26,56 @@ namespace FordonsReg
             Boatslist = new List<IVehicle>();
             Mclist = new List<IVehicle>();
         }
-         
+
         public void EditVehicle(VehicleType type)
         {
+            MainMenu p = new MainMenu();
             int numberInput = 0;
             Console.WriteLine("\nChoose an Index Nr to edit or enter anything to go back to main menu ");
             string input = Console.ReadLine();
+
             if (int.TryParse(input, out numberInput))
             {
                 switch (type)
                 {
                     case VehicleType.Car:
                         {
-                            if(numberInput < 0 || numberInput > Carlist.Count -1)
+                            if (numberInput < 0 || numberInput > Carlist.Count)
                             {
                                 IndexOutOfRange();
                                 return;
                             }
                             Console.WriteLine($"\nYou have chosen to edit Car: {numberInput} ");
-                            NewSpeedPrint();
-                            int newspeed = int.Parse(Console.ReadLine());
-                            if (newspeed >= 0 && newspeed <= 100)
+                            Console.WriteLine("Would you like to remove it hit minus, otherwise hit enter to add a new speed");
+                            string minus = Console.ReadLine();
+                            if (minus == "-")
                             {
-                                Carlist[numberInput - 1].setspeed(newspeed);
-                                Car.Print(Carlist);
+                                Carlist.RemoveAt(numberInput - 1);
+                                Console.WriteLine("You removed car {0}", numberInput);
+                                return;
                             }
                             else
+                                NewSpeedPrint();
+
+                            try
                             {
-                                Console.WriteLine("You have not entered an valid speed.");
-                                Console.ReadKey();
+                                int newspeed = int.Parse(Console.ReadLine());
+
+                                if (newspeed >= 0 && newspeed <= 100)
+                                {
+                                    Carlist[numberInput - 1].setspeed(newspeed);
+                                    Car.Print(Carlist);
+                                }
+                                else
+                                {
+                                    p.WrongSpeed();
+                                    EditVehicle(VehicleType.Car);
+                                    Console.ReadKey();
+                                }
+                            }
+                            catch
+                            {
+                                MainMenu.Error();
                             }
                             break;
                         }
@@ -60,17 +83,34 @@ namespace FordonsReg
                     case VehicleType.Boat:
                         {
                             Console.WriteLine($"\nYou have chosen to edit Boat: {numberInput} ");
-                            NewSpeedPrint();
-                            int newspeed = int.Parse(Console.ReadLine());
-                            if (newspeed >= 0 && newspeed <= 100)
+                            Console.WriteLine("Would you like to remove it hit minus, otherwise hit enter to add a new speed");
+                            string minus = Console.ReadLine();
+                            if (minus == "-")
                             {
-                                Boatslist[numberInput - 1].setspeed(newspeed);
-                                Boat.Print(Boatslist);
+                                Boatslist.RemoveAt(numberInput - 1);
+                                Console.WriteLine("You removed boat {0}", numberInput);
+                                return;
                             }
-                            else
+                            NewSpeedPrint();
+
+                            try
                             {
-                                Console.WriteLine("You have not entered an valid speed.");
-                                Console.ReadKey();
+                                int newspeed = int.Parse(Console.ReadLine());
+                                if (newspeed >= 0 && newspeed <= 100)
+                                {
+                                    Boatslist[numberInput - 1].setspeed(newspeed);
+                                    Boat.Print(Boatslist);
+                                }
+                                else
+                                {
+                                    p.WrongSpeed();
+                                    EditVehicle(VehicleType.Boat);
+                                    Console.ReadKey();
+                                }
+                            }
+                            catch
+                            {
+                                MainMenu.Error();
                             }
                             break;
                         }
@@ -78,19 +118,37 @@ namespace FordonsReg
                     case VehicleType.Motorcycle:
                         {
                             Console.WriteLine($"\nYou have chosen to edit Motorcykle: {numberInput} ");
+                            Console.WriteLine("Would you like to remove it hit minus, otherwise hit enter to add a new speed");
+                            string minus = Console.ReadLine();
+                            if (minus == "-")
+                            {
+                                Mclist.RemoveAt(numberInput - 1);
+                                Console.WriteLine("You removed motorcycle {0}", numberInput);
+                                return;
+                            }
                             NewSpeedPrint();
                             int newspeed = int.Parse(Console.ReadLine());
-                            if (newspeed >= 0 && newspeed <= 100)
+
+                            try
                             {
-                                Mclist[numberInput - 1].setspeed(newspeed);
-                                Motorcycle.Print(Mclist);
+                                if (newspeed >= 0 && newspeed <= 100)
+                                {
+                                    Mclist[numberInput - 1].setspeed(newspeed);
+                                    Motorcycle.Print(Mclist);
+                                }
+
+                                else
+                                {
+                                    p.WrongSpeed();
+                                    EditVehicle(VehicleType.Motorcycle);
+                                    Console.ReadKey();
+                                }
+                            }
+                            catch
+                            {
+                                MainMenu.Error();
                             }
 
-                            else
-                            {
-                                Console.WriteLine("You have not entered an valid speed.");
-                                Console.ReadKey();
-                            }
                             break;
                         }
 
@@ -102,7 +160,7 @@ namespace FordonsReg
             }
             else
             {
-                Console.WriteLine("you have not choosen an valid option.");
+                //Console.WriteLine("you have not choosen an valid option.");
                 Console.WriteLine("press any key to go back to mainmenu.");
                 Console.ReadKey();
                 Console.Clear();
@@ -138,7 +196,7 @@ namespace FordonsReg
                 case VehicleType.Car:
                     {
                         Car.Print(Carlist);
-                        Console.WriteLine("\nChoose an amount to create or enter 'edit' to edit and hit enter");
+                        Console.WriteLine("\nChoose an amount to create or TYPE 'edit' to edit a vehicle and hit enter");
                         input = Console.ReadLine();
                         if (int.TryParse(input, out numberInput))
                         {
@@ -147,14 +205,13 @@ namespace FordonsReg
                                 Carlist.Add(new Car());
                             }
                             Car.Print(Carlist);
-
                         }
 
                         else if (input.ToLower() == "edit")
                         {
                             EditVehicle(VehicleType.Car);
                         }
-                        else 
+                        else
                         {
                             MainMenu.NotIndexOrEdit();
                         }
@@ -165,31 +222,51 @@ namespace FordonsReg
                 case VehicleType.Boat:
                     {
                         Boat.Print(Boatslist);
-
-                        Console.WriteLine("\nChoose an amount to create or press i to edit and hit enter");
-                        int.TryParse(Console.ReadLine(), out int useramount);
-
-                        for (int i = 0; i < useramount; i++)
+                        Console.WriteLine("\nChoose an amount to create or TYPE 'edit' to edit a vehicle and hit enter");
+                        input = Console.ReadLine();
+                        if (int.TryParse(input, out numberInput))
                         {
-                            Boatslist.Add(new Car());
+                            for (int i = 0; i < numberInput; i++)
+                            {
+                                Boatslist.Add(new Boat());
+                            }
+                            Boat.Print(Boatslist);
                         }
-                        Boat.Print(Boatslist);
+                        else if (input.ToLower() == "edit")
+                        {
+                            EditVehicle(VehicleType.Boat);
+                        }
+                        else
+                        {
+                            MainMenu.NotIndexOrEdit();
+                        }
                         //Console.Clear();
                         break;
+
                     }
 
                 case VehicleType.Motorcycle:
                     {
                         Motorcycle.Print(Mclist);
-
-                        Console.WriteLine("\nChoose an amount to create or press i to edit and hit enter");
-                        int.TryParse(Console.ReadLine(), out int useramount);
-
-                        for (int i = 0; i < useramount; i++)
+                        Console.WriteLine("\nChoose an amount to create or TYPE 'edit' to edit a vehicle and hit enter");
+                        input = Console.ReadLine();
+                        if (int.TryParse(input, out numberInput))
                         {
-                            Mclist.Add(new Car());
+                            for (int i = 0; i < numberInput; i++)
+                            {
+                                Mclist.Add(new Motorcycle());
+                            }
+                            Motorcycle.Print(Mclist);
                         }
-                        Motorcycle.Print(Mclist);
+                        else if (input.ToLower() == "edit")
+                        {
+                            EditVehicle(VehicleType.Motorcycle);
+                        }
+                        else
+                        {
+                            MainMenu.NotIndexOrEdit();
+                        }
+
                         //Console.Clear();
                         break;
                     }
