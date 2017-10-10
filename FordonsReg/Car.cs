@@ -20,6 +20,11 @@ namespace FordonsReg
             Speed = userinput;
             return Speed;
         }
+        public Car(int c, string b)
+        {
+            Speed = c;
+            Name = b;
+        }
 
         public Car()
         {

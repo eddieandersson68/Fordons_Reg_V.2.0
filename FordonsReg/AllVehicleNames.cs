@@ -16,7 +16,7 @@ namespace FordonsReg
 
             VehicleNames.Add("Peter");
             VehicleNames.Add("Thaddy");
-            VehicleNames.Add("Johnny");
+            VehicleNames.Add("Johannes");
             VehicleNames.Add("Iskar");
             VehicleNames.Add("Matte");
             VehicleNames.Add("Tomas");

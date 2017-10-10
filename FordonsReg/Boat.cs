@@ -21,6 +21,13 @@ namespace FordonsReg
             return Speed;
         }
 
+        public Boat(int c, string b)
+        {
+            Speed = c;
+            Name = b;
+        }
+
+
         public Boat()
         {
             Name = AllVehicleNames.NamingMethod(); // Get random name

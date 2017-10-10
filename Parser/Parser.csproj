@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{379DD469-A2D4-4968-BA73-8D04BE2B3467}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>FordonsReg</RootNamespace>
-    <AssemblyName>FordonsReg</AssemblyName>
+    <ProjectGuid>{40B2DCC7-CD56-4D38-AF2C-A675DEF3495A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Parser</RootNamespace>
+    <AssemblyName>Parser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,30 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AllVehicleNames.cs" />
-    <Compile Include="Car.cs" />
-    <Compile Include="Boat.cs" />
-    <Compile Include="Converter.cs" />
-    <Compile Include="Enums\VehicleType.cs" />
-    <Compile Include="IVehicle.cs" />
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="Motorcycle.cs" />
-    <Compile Include="ProgramHandler.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ParserClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Parser\Parser.csproj">
-      <Project>{40b2dcc7-cd56-4d38-af2c-a675def3495a}</Project>
-      <Name>Parser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReadAndWriteLib\ReadandSaveLib.csproj">
-      <Project>{bd883f28-0ef9-435e-993e-98492c8d1a4b}</Project>
-      <Name>ReadandSaveLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

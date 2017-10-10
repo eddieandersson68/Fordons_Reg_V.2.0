@@ -6,20 +6,23 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 using FordonsReg.Enums;
+using ReadAndSaveLib;
+
 
 namespace FordonsReg
 {
     public class MainMenu
     {
-
+        
         ProgramHandler handler = new ProgramHandler();
         private bool programIsOn = true;
+        
 
         static void SetConsoleSize()
         {
             System.Console.SetWindowPosition(0, 0);   // sets window position to upper left
             System.Console.SetBufferSize(400, 200);   // make sure buffer is bigger than window
-            System.Console.SetWindowSize(120, 58);   //set window size to almost full screen 
+            System.Console.SetWindowSize(115, 58);   //set window size to almost full screen 
                                                       //width - maxSet(127,57) (width, height)
 
             //System.Console.ResetColor(); //resets fore and background colors to default
@@ -30,14 +33,14 @@ namespace FordonsReg
             while (programIsOn == true)
             {
                 Welcome();
-
+                //ProgramHandler.ReturText();
                 Console.WriteLine("\n\n-- Please Select --\n");
                 Console.WriteLine("1. Print/Create Cars");
                 Console.WriteLine("2. Print/Create Boats");
                 Console.WriteLine("3. Print/Create Motorcykles");
                 Console.WriteLine("4. Print all Vehicles in m/s");
                 Console.WriteLine("5. Search for vehicle");
-                Console.WriteLine("6. Exit program ");
+                Console.WriteLine("6. Exit program and save all lists to file");
                 Console.WriteLine("7. EasterEgg");
                 Console.WriteLine("");
                 Console.WriteLine("Please select 1-7, and hit enter");
@@ -64,7 +67,8 @@ namespace FordonsReg
                         }
                     case 4:
                         {
-                            Converter.PrintSpeedInMetersPerSecond(handler.Carlist, handler.Boatslist, handler.Mclist);
+
+                            Converter.PrintSpeedInMetersPerSecond(ProgramHandler.Carlist, ProgramHandler.Boatslist, ProgramHandler.Mclist);
                             Console.WriteLine("\nPress any key to continue main");
                             Console.ReadKey();
                             Console.Clear();
@@ -81,12 +85,21 @@ namespace FordonsReg
                         }
                     case 6:
                         {
-                            programIsOn = false;
+                            //ProgramHandler.AllVehicles( handler.Carlist, handler.Boatslist, handler.Mclist);
+                            ProgramHandler.AllVehicles(ProgramHandler.Carlist, ProgramHandler.Boatslist, ProgramHandler.Mclist);
+                            //programIsOn = false;
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            string o = "Saving all list to file, goodbye! ";
+                            Console.SetCursorPosition((Console.WindowWidth - o.Length) / 2, Console.CursorTop);
+                            Console.WriteLine(o);
+                            Console.ResetColor();
+                            Thread.Sleep(2000);
                             Environment.Exit(0);
                             break;
                         }
                     case 7:
                         {
+                            
                             Console.Clear();
                             SetConsoleSize();
                             string dirpath = Directory.GetCurrentDirectory().ToString();
